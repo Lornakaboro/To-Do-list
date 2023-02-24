@@ -1,7 +1,7 @@
 // css files here
 import './style.css';
-import TaskList from './modules/displayList.js';
-import * as Element from './modules/elements.js';
+import TaskList from '../modules/displayList.js';
+import * as Element from '../modules/elements.js';
 
 const newTask = new TaskList();
 
@@ -87,3 +87,7 @@ Element.listBody.addEventListener('change', (e) => {
   }
 });
 
+Element.clear.addEventListener('click', () => {
+  newTask.removeCompletedTasks();
+  refreshList();
+});
