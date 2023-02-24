@@ -22,14 +22,14 @@ const getTaskItem = (element) => `<div class="list show">
           </div>`;
 
 const getDescription = (element) => `<div class="list edit">
-                 ${getCheckbox(element)} 
-                <input type="text" class="desc" value="${
+          ${getCheckbox(element)} 
+         <input type="text" class="desc" value="${
   element.description
 }" aria-label ="${element.index}" >
-                <i class="fa fa-trash-o fa-2x" aria-label="${
+         <i class="fa fa-trash-o fa-2x" aria-label="${
   element.index
 }"  data-name="delete"></i>
-          </div>`;
+   </div>`;
 
 const refreshList = () => {
   const list = newTask.listArray;
@@ -60,7 +60,7 @@ Element.addList.addEventListener('keydown', (e) => {
 Element.listBody.addEventListener('click', (e) => {
   if (e.target.nodeName === 'I') {
     if (e.target.dataset.name === 'edit') {
-      newTask.setEdit(e.target.ariaLabel);
+      newTask.setEditTask(e.target.ariaLabel);
       refreshList();
     } else if (e.target.dataset.name === 'delete') {
       newTask.removeTask(parseInt(e.target.ariaLabel, 10));
@@ -71,9 +71,10 @@ Element.listBody.addEventListener('click', (e) => {
 
 Element.listBody.addEventListener('keydown', (e) => {
   if (e.code === 'Enter') {
-    if (e.target.value) {
-      const id = parseInt(e.target.ariaLabel, 10);
-      newTask.editTask(id, e.target.value);
+    const { target } = e;
+    if (target.tagName === 'INPUT' && target.classList.contains('desc')) {
+      const id = parseInt(target.getAttribute('aria-label'), 10);
+      newTask.editTask(id, target.value);
       refreshList();
     }
   }
