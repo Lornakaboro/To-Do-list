@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a11f8b435e.js" crossorigin="anonymous"></script>
     <title>To do List</title>
 </head>
 <body>
-    <div id="list-content">
-        <div class="list-heading">
-            <p>Today's To Do List</p>
-            <i id="icon" class="fas fa-sync recycle"></i>
+    <body>
+        <div id="list-content">
+            <div class="list-heading">
+                <p class="todo">Today's ToDo List</p>
+                <i id="icon" class="fas fa-sync recycle"></i>
+            </div>
+            <input type="text" class="input" name="addtext" placeholder="Add to your list..." />
+            <div id="list-body"></div>
+            <div class="button" id="clear">
+                <button>Clear all completed</button>
+            </div>
         </div>
-        <input type="text" class="input" placeholder="Add to your list...">
-        <div id="todo-list">
-        </div>
-        <div class="button">Clear all completed</div>
-    </div>
+    </body>
 
-    <script type="module" src="./index.js"></script>
+    <script src="./index.js"></script>
 </body>
 </html>
