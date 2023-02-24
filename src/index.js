@@ -91,4 +91,3 @@ Element.clear.addEventListener('click', () => {
   newTask.removeCompletedTasks();
   refreshList();
 });
-false
