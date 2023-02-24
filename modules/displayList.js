@@ -1,18 +1,18 @@
 export default class TaskList {
-    constructor() {
-      this.getTasksFromLocalStorage();
-    }
-  
-    updateTasksInLocalStorage() {
-      localStorage.setItem('taskList', JSON.stringify(this.listArray));
-    }
-  
-    getTasksFromLocalStorage() {
-      this.listArray = JSON.parse(localStorage.getItem('taskList')) || [];
-    }
-  
+  constructor() {
+    this.getTasksFromLocalStorage();
+  }
+
+  updateTasksInLocalStorage() {
+    localStorage.setItem('taskList', JSON.stringify(this.listArray));
+  }
+
+  getTasksFromLocalStorage() {
+    this.listArray = JSON.parse(localStorage.getItem('taskList')) || [];
+  }
+
       getTasks = () => JSON.parse(localStorage.getItem('taskList')) || [];
-  
+
       setEditTask(index) {
         const task = this.listArray.find(
           (item) => parseInt(item.index, 10) === parseInt(index, 10),
@@ -20,7 +20,7 @@ export default class TaskList {
         task.edit = true;
         this.updateTasksInLocalStorage();
       }
-  
+
       addNewTask(description) {
         const task = {
           description,
@@ -31,7 +31,7 @@ export default class TaskList {
         this.listArray = [...this.listArray, task];
         this.updateTasksInLocalStorage();
       }
-  
+
       removeCompletedTasks() {
         this.listArray = this.listArray.filter((item) => item.completed !== true);
         if (this.listArray.length > 0) {
@@ -42,7 +42,7 @@ export default class TaskList {
         }
         this.updateTasksInLocalStorage();
       }
-  
+
       removeTask(index) {
         this.listArray = this.listArray.filter((item) => item.index !== index);
         this.listArray = this.listArray.map((task, i) => {
@@ -51,13 +51,13 @@ export default class TaskList {
         });
         this.updateTasksInLocalStorage();
       }
-  
+
       editTask(index, description) {
         this.listArray[index - 1].description = description;
         this.listArray[index - 1].edit = false;
         this.updateTasksInLocalStorage();
       }
-  
+
       changeTaskCompletionStatus(index) {
         const status = this.listArray[index - 1].completed;
         this.listArray[index - 1] = {
@@ -66,4 +66,4 @@ export default class TaskList {
         };
         this.updateTasksInLocalStorage();
       }
-  }
+}
