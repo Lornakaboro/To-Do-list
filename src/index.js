@@ -87,3 +87,7 @@ Element.listBody.addEventListener('change', (e) => {
   }
 });
 
+Element.clear.addEventListener('click', () => {
+  newTask.removeCompletedTasks();
+  refreshList();
+});
