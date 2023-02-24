@@ -1,42 +1,92 @@
+// css files here
 import './style.css';
+import TaskList from './modules/displayList.js';
+import * as Element from './modules/elements.js';
 
-const tasks = [
-  {
-    id: 1,
-    toDo: 'Meditation',
-    completed: true,
-  },
-  {
-    id: 2,
-    toDo: 'Learn Javasript',
-    completed: true,
-  },
-  {
-    id: 3,
-    toDo: 'Exercise',
-    completed: true,
-  },
-  {
-    id: 4,
-    toDo: 'Play guitar',
-    completed: true,
-  },
-];
+const newTask = new TaskList();
 
-const listItems = document.getElementById('todo-list');
+const getCheckbox = (element) => ` ${
+  element.completed
+    ? `<input type="checkbox" aria-label="${element.index}" data-name="status" name="check" checked>`
+    : `<input type="checkbox" aria-label="${element.index}" data-name="status" name="check">`
+} `;
 
-function filledTask() {
-  let myTasks = '';
-  tasks.forEach((job) => {
-    myTasks += `
-                <div class="task-list">
-                    <input type="checkbox">
-                    <p>${job.toDo}</p>
-               
-           <a><i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-                    </a>
-                </div>`;
-  });
-  listItems.innerHTML = myTasks;
-}
-filledTask();
+const getTaskItem = (element) => `<div class="list show">
+                ${getCheckbox(element)}                
+                <p class="taskdescription ${
+  element.completed ? 'strike' : ''
+}">${element.description}</p>
+               <i class="fa fa-ellipsis-v fa-2x menu-icon" aria-label="${
+  element.index
+}"  data-name="edit"></i>
+          </div>`;
+
+const getDescription = (element) => `<div class="list edit">
+                 ${getCheckbox(element)} 
+                <input type="text" class="desc" value="${
+  element.description
+}" aria-label ="${element.index}" >
+                <i class="fa fa-trash-o fa-2x" aria-label="${
+  element.index
+}"  data-name="delete"></i>
+          </div>`;
+
+const refreshList = () => {
+  const list = newTask.listArray;
+  let content = '';
+  if (list) {
+    list.forEach((element) => {
+      content += `${
+        element.edit ? getDescription(element) : getTaskItem(element)
+      }`;
+    });
+  }
+  Element.listBody.innerHTML = content;
+};
+refreshList();
+
+// Event Listeners
+Element.addList.addEventListener('keydown', (e) => {
+  if (e.code === 'Enter') {
+    const val = Element.addList.value;
+    if (val) {
+      newTask.addNewTask(val);
+      Element.addList.value = '';
+      refreshList();
+    }
+  }
+});
+
+Element.listBody.addEventListener('click', (e) => {
+  if (e.target.nodeName === 'I') {
+    if (e.target.dataset.name === 'edit') {
+      newTask.setEdit(e.target.ariaLabel);
+      refreshList();
+    } else if (e.target.dataset.name === 'delete') {
+      newTask.removeTask(parseInt(e.target.ariaLabel, 10));
+      refreshList();
+    }
+  }
+});
+
+Element.listBody.addEventListener('keydown', (e) => {
+  if (e.code === 'Enter') {
+    if (e.target.value) {
+      const id = parseInt(e.target.ariaLabel, 10);
+      newTask.editTask(id, e.target.value);
+      refreshList();
+    }
+  }
+});
+
+Element.listBody.addEventListener('change', (e) => {
+  if (e.target.dataset.name === 'status') {
+    newTask.changeTaskCompletionStatus(parseInt(e.target.ariaLabel, 10));
+    refreshList();
+  }
+});
+
+Element.clear.addEventListener('click', () => {
+  newTask.removeCompletedTasks();
+  refreshList();
+});
